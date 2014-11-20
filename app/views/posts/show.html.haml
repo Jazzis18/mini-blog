@@ -1,0 +1,31 @@
+-# TODO: generation a page title for yield
+
+.btn-group
+	= link_to 'View All', posts_path, class: 'btn btn-default'
+	- if can?(:update, Post) && current_user.can_edit?(@post) || current_user.has_role?(:admin) 
+		= link_to 'Edit', edit_post_path, class: 'btn btn-default'
+	- if can? :destroy, Post
+		= link_to 'Delete', @post, :method => :delete, :data => { :confirm => "Are you sure?" }, class: 'btn btn-default'
+
+%h2= @post.title
+
+- if @post.tags.any?
+	%p= "Tags: #{tag_urls(@post)}".html_safe
+
+.content_width
+	%p= markdown @post.content
+
+%h2 Comments
+- @post.comments.each do |comment|
+	%p= comment.text
+	%p
+		%small
+			= "#{time_ago_in_words(comment.created_at)} ago"
+	- if current_user.has_role? :admin
+		%p= link_to 'Delete comment', [@post, comment], :method => :delete, :data => { :confirm => "Are you sure?" }
+	
+= form_for [@post, @post.comments.build] do |f|
+	%p= f.text_area :text, size: '40x10'
+	%p= f.submit 'Post Comment', class: 'btn btn-default'
+
+

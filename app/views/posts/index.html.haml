@@ -1,0 +1,19 @@
+- if can? :create, Post
+  = link_to "New Post", new_post_path, class: 'btn btn-default'
+
+- @posts.each do |post|
+  %p
+    %h2= link_to post.title, post_path(post)
+    
+  %p
+    %small= "#{time_ago_in_words(post.created_at).capitalize} ago from #{post.user.username}"
+    
+  %p= markdown( truncate(post.content, length: 100) )
+  - if post.tags.any?
+    = "Tags: #{tag_urls(post)}".html_safe
+        
+  %p
+    = "Comments: "
+    %span.label.label-default
+      = post.comments.count
+  %hr

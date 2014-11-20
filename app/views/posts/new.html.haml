@@ -1,0 +1,7 @@
+= link_to 'View All', posts_path, class: 'btn btn-default'
+
+= form_for :post, url: @post do |f|
+  %p= render partial: 'form', locals: {f: f}
+	
+  %p= f.submit 'Create Post', class: 'btn btn-default'
+	

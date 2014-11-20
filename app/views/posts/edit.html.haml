@@ -1,0 +1,6 @@
+= link_to 'Back', @post, class: 'btn btn-default'
+
+= form_for :post, url: @post, method: :patch do |f|
+  %p= render partial: 'form', locals: {f: f}
+	
+  %p= f.submit 'Save Post', class: 'btn btn-default'

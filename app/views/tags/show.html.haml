@@ -1,0 +1,16 @@
+%h2= "Links for ##{@tag.name}"
+	
+%p
+	= link_to "Popular", "#"
+	= link_to "Recent", "#"
+	= "All Time"
+
+- if @posts.any?
+	- @posts.each do |post|
+		%h3= link_to post.title, post_path(post)
+		= "Tags: #{tag_urls(post)}".html_safe
+		%hr
+				
+- else
+	%p This tag is not associated with any posts.
+				
